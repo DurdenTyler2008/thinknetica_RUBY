@@ -1,1 +1,1 @@
-# thinknetica_RUBY
+# обучение RUBY в thinknetica
