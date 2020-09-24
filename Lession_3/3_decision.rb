@@ -94,9 +94,6 @@ class Train
     @type = type
     @number_cars = number_cars
     @speed = 0
-    @route = route
-    @current_station = nil
-  
   end
 
   def speed=(speed) # набирает скорость(метод сеттер train.speed=100)
@@ -121,34 +118,39 @@ class Train
   end
 
   def send_car # отцепляет 1 вагон
-    @number_cars -= 1 if @speed == 0
-  end
-
-  def accept_route(route)
-    @real_route = route # принимает маршрут следования (объект класса Route)
-    @current_station = route.first_station # При назначении маршрута поезду, поезд автоматически помещается на первую станцию в маршруте
-  end
-
-  def moving # движение вперед и назад
-    if @current_station != @real_route.end_station
-      current_station = @real_route.stations.index(@current_station) + 1
-    elsif @current_station != @real_route.first_station
-      current_station = @real_route.stations(@current_station) - 1 
-    elsif @current_station == @real_route.end_station
-      puts "Вы в конце пути"
+    if @number_cars == 0
+      puts "У поезда нет вагонов"
     else
-      puts "Error"  
+      @number_cars -= 1 if @speed == 0
     end
   end
 
-  def show_stations
-    previous_station = @real_route.stations.index(@current_station) - 1
-    puts "Предидущая станция: #{@real_route.stations[previous_station]}"
-
-    next_station = @real_route.stations.index(@current_station) + 1
-    puts "Следующая станция: #{@real_route.stations[next_station]}"
-
-    current_station = @real_route.stations.index(@current_station)
-    puts "Текущая станция: #{@real_route.stations[current_station]}"
+  def accept_route(route)
+    @route = route # принимает маршрут следования (объект класса Route)
+    @current_station = route.first_station # При назначении маршрута поезду, поезд автоматически помещается на первую станцию в маршруте
   end
+
+  def moving_forvard
+    if @current_station != @route.end_station
+      first_station = @route.stations.index(@current_station) + 1
+      puts "Вы на станции: #{first_station}" 
+    else
+      puts "Вы на последней станции"
+    end
+  end
+  
+  def next_station
+    next_station = @route.stations.index(@current_station) + 1
+  end
+
+  def previous_station
+    previous_station = @route.stations.index(@current_station) - 1
+  end
+
 end
+
+
+  
+  
+
+
