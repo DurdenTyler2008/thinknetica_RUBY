@@ -130,25 +130,38 @@ class Train
     @current_station = route.first_station # При назначении маршрута поезду, поезд автоматически помещается на первую станцию в маршруте
   end
 
+  def current_station_index # возвращает индекс текущей станции
+    @route.stations.index(@current_station) 
+  end
+
+  def next_station # возвращает объект следующей станци
+    @route.stations[current_station_index + 1]
+  end
+
+  def previous_station # возвращает объект предидущей станции
+    @route.stations[current_station_index - 1]
+  end
+
+
   def moving_forvard
     if @current_station != @route.end_station
-      first_station = @route.stations.index(@current_station) + 1
-      puts "Вы на станции: #{first_station}" 
+      @current_station = next_station
+      puts "Вы на станции: #{next_station}" 
     else
       puts "Вы на последней станции"
     end
   end
-  
-  def next_station
-    next_station = @route.stations.index(@current_station) + 1
-  end
 
-  def previous_station
-    previous_station = @route.stations.index(@current_station) - 1
+  def moving_backward
+    if @current_station != @route.first_station
+      @current_station = previous_station
+      puts "Вы на станции: #{previous_station}"
+    else
+      puts "Вы на первой станции"
+    end
   end
 
 end
-
 
   
   
